@@ -1,5 +1,3 @@
-#!/bin/bash
-
 
 
 cd "$base_directory"
@@ -21,16 +19,11 @@ do
         #uses ! -d instead of -f so that symlinks which resolve to a directory are also excluded
         if [ ! -d "$x" ]; then
 
-                #make directory from file name (minus file extension) and then move file to that directory
+                #make directory from file name (minus file extension)
                 #-p flag means mkdir will not throw error if directory already exists (moving files w/ same name but different file extension)
-                mkdir -p "${x%.*}" && mv "$x" "${x%.*}"
+                mkdir -p "${x%.*}"
+
+                #move file to that directory
+                mv "$x" "${x%.*}"
         fi
 done
-
-
-#### Moves all of type "file" within subdirectory tree to base_directory
-
-#type f is file, -t in cp is "target"
-#multiple -exec commands can be used: find <generate list> -exec <command> {} \; -exec <command> {} \;
-
-find "$base_directory" -type f -exec cp -t "$base_directory" {} +
